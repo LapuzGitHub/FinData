@@ -91,7 +91,7 @@
       <DependentUpon>FinDataForm.cs</DependentUpon>
     </Compile>
     <Compile Include="FinDataRetrieval.cs" />
-    <Compile Include="FinNewsRetrieval.cs" />
+    <Compile Include="FinProfileRetrieval.cs" />
     <Compile Include="HistoricalDataSet.cs" />
     <Compile Include="Instrument.cs" />
     <Compile Include="Program.cs" />

@@ -9,15 +9,15 @@ using RestSharp;
 
 namespace FinDataForm
 {
-	class FinNewsRetrieval
+	class FinProfileRetrieval
 	{
-		private const string URL_ROOT = "https://apidojo-yahoo-finance-v1.p.rapidapi.com/stock/v2/get-insights?symbol={0}";
+		private const string URL_ROOT = "https://yh-finance.p.rapidapi.com/stock/v2/get-profile?symbol={0}";
 		private const string URL_KEY = "47d8468cf0msh96b01986208e4b6p17fbf3jsnead6aacd5743";
 		private const string URL_HOST = "apidojo-yahoo-finance-v1.p.rapidapi.com";
 
 		private Instrument instrument;
 		private string symbol;
-		public FinNewsRetrieval(string symbol)
+		public FinProfileRetrieval(string symbol)
 		{
 			this.symbol = symbol;
 			instrument = new Instrument(symbol);
