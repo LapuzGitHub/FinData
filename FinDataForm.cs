@@ -366,8 +366,7 @@ namespace FinDataForm
 			HistoricalDataSet historicalData = null;
 			try
 			{
-				historicalData = (new FinDataRetrieval(_symbol)).GetData(startDate, endDate);
-				var profile = (new FinProfileRetrieval(_symbol)).GetData();
+				historicalData = (new FinDataRetrieval(_symbol)).GetHistoricalData(startDate, endDate);
 			}
 			catch
 			{

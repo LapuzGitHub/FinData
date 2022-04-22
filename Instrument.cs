@@ -52,13 +52,17 @@ namespace FinDataForm
 					return STOCK_QUOTE_DIGITS;
 			}
 		}
+		public void SetProfileData(ProfileData profileData)
+		{
+			historicalDataSet.LongName = (profileData == null || profileData.QuoteType == null ? string.Empty : profileData.QuoteType.LongName);
+		}
 		public void SetHistoricalData(QuoteList quoteList)
 		{
 			historicalDataSet.Set(quoteList);
 		}
 		public HistoricalDataSet GetHistoricalData()
 		{
-			return historicalDataSet.Get();
+			return historicalDataSet;
 		}
 	}
 }

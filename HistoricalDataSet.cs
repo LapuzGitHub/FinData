@@ -8,6 +8,8 @@ namespace FinDataForm
 {
 	public class HistoricalDataSet
 	{
+		public string LongName { get; set; }
+
 		private int digitNumber;
 		private Dictionary<DateTime, double> historicalData;
 		public HistoricalDataSet(int digitNumber, Dictionary<DateTime, double> historicalData = null)
@@ -32,11 +34,7 @@ namespace FinDataForm
 		public void Set(QuoteList quoteList)
 		{
 			if (quoteList == null || quoteList.Quotes == null) return;
-			historicalData = (new List<Quote>(quoteList.Quotes)).ToDictionary(keySelector: q => Helper.ToDateTime(q.Date).Date, elementSelector: q => Math.Round(q.Close, digitNumber));
-		}
-		public HistoricalDataSet Get()
-		{
-			return new HistoricalDataSet(digitNumber, historicalData);
+			historicalData = (new List<Quote>(quoteList.Quotes)).ToDictionary(q => Helper.ToDateTime(q.Date).Date, q => Math.Round(q.Close, digitNumber));
 		}
 		public bool IsEmpty()
 		{
