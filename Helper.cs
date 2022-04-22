@@ -35,7 +35,7 @@ namespace FinDataForm
 			if (values.Length < 2) return 0.0;
 
 			var mean = Mean(values);
-			return values.Sum(x => Math.Pow(x - mean.Value, 2.0));
+			return values.Sum(x => Math.Pow(x - mean.Value, 2.0)) / values.Length;
 		}
 		static public double? StandardDeviation(double[] values)
 		{
@@ -52,7 +52,7 @@ namespace FinDataForm
 			var mean1 = Mean(values1);
 			var mean2 = Mean(values2);
 
-			return values1.Zip(values2, (x, y) => (x - mean1) * (y - mean2)).Sum();
+			return values1.Zip(values2, (x, y) => (x - mean1) * (y - mean2)).Sum() / values1.Length;
 		}
 		static public double? Correlation(double[] values1, double[] values2)
 		{

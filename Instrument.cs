@@ -19,7 +19,7 @@ namespace FinDataForm
 		public const int CURRENCY_PAIR_QUOTE_DIGITS = 4;
 
 		private string symbol;
-		public InstrumentType Type;
+		public InstrumentType Type { get; set; }
 
 		private HistoricalDataSet historicalDataSet = null;
 		public Instrument(string s)
