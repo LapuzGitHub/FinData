@@ -10,11 +10,25 @@ namespace FinDataForm
 	public class ProfileData
 	{
 		[JsonPropertyName("quoteType")]
-		public QuoteType QuoteType { get; set; }
+		public QuoteTypeNode QuoteTypeNode { get; set; }
+
+		[JsonPropertyName("assetProfile")]
+		public AssetProfileNode AssetProfileNode { get; set; }
 	}
-	public class QuoteType
+	public class QuoteTypeNode
 	{
 		[JsonPropertyName("longName")]
 		public string LongName { get; set; }
+
+		[JsonPropertyName("quoteType")]
+		public string QuoteType { get; set; }
+	}
+	public class AssetProfileNode
+	{
+		[JsonPropertyName("sector")]
+		public string Sector { get; set; }
+
+		[JsonPropertyName("country")]
+		public string Country { get; set; }
 	}
 }

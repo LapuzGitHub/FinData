@@ -9,13 +9,15 @@ namespace FinDataForm
 	public class HistoricalDataSet
 	{
 		public string LongName { get; set; }
+		public int DigitNumber { get; set; }
 
-		private int digitNumber;
 		private Dictionary<DateTime, double> historicalData;
-		public HistoricalDataSet(int digitNumber, Dictionary<DateTime, double> historicalData = null)
+
+		private readonly int DEFAULT_DIGIT_NUMBER = 2;
+		public HistoricalDataSet(Dictionary<DateTime, double> historicalData = null)
 		{
-			this.digitNumber = digitNumber;
 			this.historicalData = historicalData ?? new Dictionary<DateTime, double>();
+			DigitNumber = DEFAULT_DIGIT_NUMBER;
 		}
 		public List<DateTime> Dates()
 		{
@@ -29,12 +31,12 @@ namespace FinDataForm
 		}
 		public string FormattedValue(DateTime date)
 		{
-			return String.Format(String.Concat("{0:F", digitNumber, "}"), Value(date)); 
+			return String.Format(String.Concat("{0:F", DigitNumber, "}"), Value(date)); 
 		}
 		public void Set(QuoteList quoteList)
 		{
 			if (quoteList == null || quoteList.Quotes == null) return;
-			historicalData = (new List<Quote>(quoteList.Quotes)).ToDictionary(q => Helper.ToDateTime(q.Date).Date, q => Math.Round(q.Close, digitNumber));
+			historicalData = (new List<Quote>(quoteList.Quotes)).ToDictionary(q => Helper.ToDateTime(q.Date).Date, q => Math.Round(q.Close, DigitNumber));
 		}
 		public bool IsEmpty()
 		{

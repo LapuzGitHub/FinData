@@ -22,7 +22,6 @@ namespace FinDataForm
 		public FinDataRetrieval(string symbol)
 		{
 			this.symbol = Helper.FitString(symbol);
-			instrument = new Instrument(symbol);
 
 			var response = ExecuteProfileRequest();
 			if (response == null) return;
@@ -35,8 +34,8 @@ namespace FinDataForm
 			catch 
 			{
 			}
-			
-			instrument.SetProfileData(profileData);
+
+			instrument = new Instrument(symbol, profileData);
 		}
 		private IRestClient GetHistoricalClient(DateTime startDate, DateTime endDate)
 		{
@@ -46,7 +45,7 @@ namespace FinDataForm
 
 			if (startDate >= today || endDate >= today || startDate > endDate) return null;
 
-			DateTime _endDate = (instrument.Type == InstrumentType.STOCK ? endDate.AddDays(1) : endDate);
+			DateTime _endDate = (instrument.Type == InstrumentType.INDEX || instrument.Type == InstrumentType.EQUITY ? endDate.AddDays(1) : endDate);
 
 			string restURL = string.Format(URL_ROOT_HISTORICAL, symbol, Helper.ToEpochTime(startDate), Helper.ToEpochTime(_endDate));
 			return new RestClient(restURL);

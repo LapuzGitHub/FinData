@@ -9,52 +9,51 @@ namespace FinDataForm
 {
 	public enum InstrumentType
 	{ 
-		STOCK,
+		INDEX,
+		EQUITY,
 		CURRENCY_PAIR,
 		UNKNOWN
 	}
 	public class Instrument
 	{
-		public const int STOCK_QUOTE_DIGITS = 2;
+		public const int INDEX_QUOTE_DIGITS = 2;
+		public const int EQUITY_QUOTE_DIGITS = 2;
 		public const int CURRENCY_PAIR_QUOTE_DIGITS = 4;
 
 		private string symbol;
 		public InstrumentType Type { get; set; }
 
 		private HistoricalDataSet historicalDataSet = null;
-		public Instrument(string s)
+		public Instrument(string s, ProfileData profileData)
 		{
 			symbol = Helper.FitString(s);
-
 			Type = InstrumentType.UNKNOWN;
-			if (!string.IsNullOrWhiteSpace(symbol))
-			{
-				if (symbol.EndsWith("=X"))
-				{
-					Type = InstrumentType.CURRENCY_PAIR;
-				}
-				else
-				{
-					Type = InstrumentType.STOCK;
-				}
-			}
-
-			historicalDataSet = new HistoricalDataSet(DigitNumber(Type));
+			historicalDataSet = new HistoricalDataSet();
+			SetProfileData(profileData);
 		}
-		public static int DigitNumber(InstrumentType instrumentType)
+		private void SetProfileData(ProfileData profileData)
 		{
+			bool noData = (profileData == null || profileData.QuoteTypeNode == null);
+			historicalDataSet.LongName = (noData ? string.Empty : profileData.QuoteTypeNode.LongName);
+
+			string instrumentType = noData ? string.Empty : profileData.QuoteTypeNode.QuoteType;
+			int digitNumber;
 			switch (instrumentType)
 			{
-				case InstrumentType.CURRENCY_PAIR:
-					return CURRENCY_PAIR_QUOTE_DIGITS;
-				case InstrumentType.STOCK:
+				case "EQUITY":
+					digitNumber = EQUITY_QUOTE_DIGITS;
+					break;
 				default:
-					return STOCK_QUOTE_DIGITS;
+					if (symbol.StartsWith("^"))
+						digitNumber = INDEX_QUOTE_DIGITS;
+					else if (symbol.EndsWith("=X"))
+						digitNumber = CURRENCY_PAIR_QUOTE_DIGITS;
+					else
+						digitNumber = EQUITY_QUOTE_DIGITS;
+					break;
 			}
-		}
-		public void SetProfileData(ProfileData profileData)
-		{
-			historicalDataSet.LongName = (profileData == null || profileData.QuoteType == null ? string.Empty : profileData.QuoteType.LongName);
+
+			historicalDataSet.DigitNumber = digitNumber;
 		}
 		public void SetHistoricalData(QuoteList quoteList)
 		{
